@@ -1,19 +1,9 @@
 {
-  "projects": [
-    {
-      "rootDirectory": "client",
-      "buildCommand": "npm run build",
-      "outputDirectory": "dist",
-      "framework": "vite"
-    },
-    {
-      "rootDirectory": "server",
-      "buildCommand": "npm install",
-      "outputDirectory": "api"
-    }
-  ],
+  "rootDirectory": "client",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server/$1" },
-    { "source": "/(.*)", "destination": "/client/dist/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
