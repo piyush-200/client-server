@@ -1,6 +1,6 @@
 // server.js
 const express = require("express");
-const app = express();
+const axios = require("axios"); // ✅ use require for consistency
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -21,6 +21,8 @@ const contactUsRoute = require("./Route/Contact");
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 
+const app = express();
+
 // Connect to DB
 database.connect();
 
@@ -32,8 +34,8 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",               // React dev server
-      "https://client-server-20043.onrender.com"     // Deployed frontend (Netlify/Vercel)
+      "http://localhost:3000", // React dev server
+      "https://client-server-20043.onrender.com" // Deployed frontend
     ],
     credentials: true,
   })
@@ -61,9 +63,26 @@ app.use("/api/v1/reach", contactUsRoute);
 app.get("/", (req, res) => {
   return res.json({
     success: true,
-    message: "Welcome To StudyNotion",
+    message: "Welcome To StudyNotion 🚀",
   });
 });
+
+// 🔥 Keep Render instance awake
+const url = "https://client-server-20043.onrender.com"; // replace with your backend URL if needed
+const interval = 300000; // 5 minutes (300,000 ms)
+
+function reloadWebsite() {
+  axios
+    .get(url)
+    .then(() => {
+      console.log("Website pinged successfully");
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+}
+
+setInterval(reloadWebsite, interval);
 
 // Start server
 app.listen(PORT, () => {
