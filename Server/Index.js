@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",               // React dev server
+      "http://localhost:4000",               // React dev server
       "https://client-server-20043.onrender.com"     // Deployed frontend (Netlify/Vercel)
     ],
     credentials: true,
