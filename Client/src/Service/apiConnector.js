@@ -3,6 +3,7 @@ import axios from "axios";
 // Use environment variable for backend URL
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
+   withCredentials: true,
 });
 
 export const apiConnector = (method, url, bodyData, headers, params) => {
