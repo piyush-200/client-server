@@ -2,7 +2,7 @@
 	"name": "studynotion-backend",
 	"version": "1.0.0",
 	"description": "studynotion-backend",
-	"main": "index.js",
+	"main": "Index.js",
 	"scripts": {
 		"start": "node Index.js",
 		"dev": "nodemon Index.js"
