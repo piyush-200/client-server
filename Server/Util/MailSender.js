@@ -29,21 +29,29 @@
 
 // module.exports = mailSender;
 
+
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const mailSender = async (email, title, body) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: Number(process.env.MAIL_PORT) || 587,
-    secure: Number(process.env.MAIL_PORT) === 465,
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
-    },
-  });
-
   try {
+    const port = Number(process.env.MAIL_PORT) || 587;
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: port,
+      secure: port === 465, // true for 465, false for 587
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
+
+    // Verify SMTP connection and credentials
+    await transporter.verify();
+    console.log("SMTP connection verified successfully");
+
+    // Send email
     const info = await transporter.sendMail({
       from: `"StudyNotion" <${process.env.MAIL_USER}>`,
       to: email,
@@ -51,13 +59,20 @@ const mailSender = async (email, title, body) => {
       html: body,
     });
 
-    console.log("Email sent:", info.messageId);
-    console.log("Accepted:", info.accepted);
-    console.log("Rejected:", info.rejected);
+    // Delivery diagnostics
+    console.log("Email send request completed");
+    console.log("Message ID:", info.messageId);
+    console.log("Accepted recipients:", info.accepted);
+    console.log("Rejected recipients:", info.rejected);
+    console.log("SMTP response:", info.response);
+
+    if (!info.accepted || info.accepted.length === 0) {
+      throw new Error("SMTP server did not accept the recipient");
+    }
 
     return info;
   } catch (error) {
-    console.error("Email sending failed:", error);
+    console.error("Email sending failed:", error.message);
     throw error;
   }
 };
