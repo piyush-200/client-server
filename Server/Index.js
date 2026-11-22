@@ -35,7 +35,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000", // React dev server
-      "https://study-oqjb.onrender.com" // Deployed frontend
+      "https://client-server-20043.onrender.com" // Deployed frontend
     ],
     credentials: true,
   })
@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 });
 
 // 🔥 Keep Render instance awake
-const url = "https://study-oqjb.onrender.com"; // replace with your backend URL if needed
+const url = "https://client-server-20043.onrender.com"; // replace with your backend URL if needed
 const interval = 300000; // 5 minutes (300,000 ms)
 
 function reloadWebsite() {
