@@ -36,7 +36,7 @@ require("dotenv").config();
 const apiKey = process.env.RESEND_API_KEY;
 
 if (!apiKey) {
-  console.error("RESEND_API_KEY is missing from environment variables");
+  throw new Error("RESEND_API_KEY is missing from environment variables");
 }
 
 const resend = new Resend(apiKey);
